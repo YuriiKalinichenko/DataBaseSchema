@@ -67,7 +67,9 @@ namespace DataBaseSchema
                 foreach (DataColumn c in t.Columns)
                 {
                     commandText.Append(string.Format("[{0}] {1} ", c.ColumnName, typeDict[c.DataType]));
-                    if (c.Unique) commandText.Append(string.Format("UNIQUE"));
+                    if (c.Unique) commandText.Append(string.Format(" UNIQUE "));
+                    if (!c.AllowDBNull) commandText.Append(string.Format(" NOT NULL "));
+                    if (c.AutoIncrement) commandText.Append(string.Format(" IDENTITY({0},{1}) ", c.AutoIncrementSeed, c.AutoIncrementStep));
                     commandText.Append(",\n");
                 }
                 commandText.AppendLine(")");

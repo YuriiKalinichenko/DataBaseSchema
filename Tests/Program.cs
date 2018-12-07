@@ -18,8 +18,8 @@ namespace Tests
             DataSet ds = new DataSet("Adventure Works DW2012 Test");
             string connString = "Data Source=.; Initial Catalog=Adventure Works DW2012; Integrated Security=true";
             DataSetActions.CreateDataSet(ds, connString);
-            //PrintDataSetSchema(ds, "D:\\Adventure Works DW2012.txt");
-            //DataBaseActions.CreateDataBase(ds, connString, DataBaseActions.SetTransformToSqlTypes());
+            PrintDataSetSchema(ds, "D:\\Adventure Works DW2012.txt");
+            DataBaseActions.CreateDataBase(ds, connString, DataBaseActions.SetTransformToSqlTypes());
         }
         static void PrintDataSetSchema(DataSet ds, string fileName)
         {
@@ -31,7 +31,7 @@ namespace Tests
                 schema.AppendLine(string.Format(new string('-', 32)));
                 foreach (DataColumn c in t.Columns)
                 {
-                    schema.AppendLine(string.Format("Column NAME: {0}, TYPE: {1}, IS UNIQUE: {2}\n", c.ColumnName, c.DataType, c.Unique));
+                    schema.AppendLine(string.Format("Column NAME: {0}, TYPE: {1}, IS UNIQUE: {2}, IS AUTO INCREMENT: {3}({4},{5})\n", c.ColumnName, c.DataType, c.Unique, c.AutoIncrement, c.AutoIncrementSeed, c.AutoIncrementStep));
                 }
                 schema.AppendLine(string.Format(new string('\n', 3)));
             }
