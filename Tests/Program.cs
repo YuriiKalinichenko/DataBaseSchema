@@ -18,8 +18,10 @@ namespace Tests
             DataSet ds = new DataSet("Adventure Works DW2012 Test");
             string connString = "Data Source=.; Initial Catalog=Adventure Works DW2012; Integrated Security=true";
             DataSetActions.CreateDataSet(ds, connString);
-            PrintDataSetSchema(ds, "D:\\Adventure Works DW2012.txt");
-            DataBaseActions.CreateDataBase(ds, connString, DataBaseActions.SetTransformToSqlTypes());
+            //PrintDataSetSchema(ds, "D:\\Adventure Works DW2012.txt");
+            //DataBaseActions.CreateDataBase(ds, connString, DataBaseActions.SetTransformToSqlTypes());
+            DataSetActions.FillData(ds, connString, 0, 10);
+            //DataBaseActions.WriteData(ds, connString, DataSetActions.adapters.ToArray()); //Ошибка
         }
         static void PrintDataSetSchema(DataSet ds, string fileName)
         {

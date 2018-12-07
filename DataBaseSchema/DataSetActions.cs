@@ -10,6 +10,7 @@ namespace DataBaseSchema
 {
     public class DataSetActions
     {
+        public static Dictionary<string, SqlDataAdapter> adapters = null;
         public static string ConnectionString { get; set; }
         static List<string> tablesName;
         public static void CreateDataSet(DataSet ds, string connectionString)
@@ -63,6 +64,42 @@ namespace DataBaseSchema
             {
                 GetSchemaTable(connString, t.TableName, ds);
             }
+        }
+        public static void FillData(DataSet ds, string connectionString, int startRecord, int maxRecords)
+        {
+            if (DataSetActions.adapters == null)
+            {
+                DataSetActions.adapters = new Dictionary<string, SqlDataAdapter>();
+                adapters = GetAdapters(ds, connectionString);
+            }
+            foreach(DataTable t in ds.Tables)
+            {
+                adapters[t.TableName].Fill(startRecord, maxRecords, t);
+            }
+        }
+        public static void FillData(DataSet ds, string connectionString)
+        {
+            if (DataSetActions.adapters == null) DataSetActions.adapters = GetAdapters(ds, connectionString);
+            foreach (DataTable t in ds.Tables)
+            {
+                adapters[t.TableName].Fill(t);
+            }
+        }
+        public static void ClearDataSet(DataSet ds)
+        {
+            ds.Clear();
+        }
+        private static Dictionary<string, SqlDataAdapter> GetAdapters(DataSet ds, string connectionString)
+        {
+            Dictionary<string, SqlDataAdapter> adapters = new Dictionary<string, SqlDataAdapter>();
+            foreach(DataTable t in ds.Tables)
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter();
+                adapter.SelectCommand = new SqlCommand(string.Format("select * from [{0}]", t.TableName), new SqlConnection(connectionString));
+                SqlCommandBuilder commandBuilder = new SqlCommandBuilder(adapter);
+                adapters.Add(t.TableName, adapter);
+            }
+            return adapters;
         }
     }
 }

@@ -91,6 +91,18 @@ namespace DataBaseSchema
             }
         }
 
+        public static void WriteData(DataSet ds, string connectionString, params SqlDataAdapter[] adapters)
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                conn.Open();
+                foreach (SqlDataAdapter adapter in adapters)
+                {
+                    adapter.Update(ds);
+                }
+            }
+        }
+
 
 
     }
