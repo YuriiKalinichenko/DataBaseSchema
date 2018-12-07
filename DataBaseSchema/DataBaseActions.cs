@@ -17,6 +17,7 @@ namespace DataBaseSchema
             typeDict.Add(typeof(string), "nvarchar");
             typeDict.Add(typeof(Int64), "bigint");
             typeDict.Add(typeof(Int32), "int");
+            typeDict.Add(typeof(Byte), "tinyint");
             typeDict.Add(typeof(DateTime), "datetime");
             typeDict.Add(typeof(Boolean), "bit");
             typeDict.Add(typeof(Byte[]), "binary");
@@ -35,7 +36,7 @@ namespace DataBaseSchema
         {
             SqlCommand createCommand = new SqlCommand();
             StringBuilder commandText = new StringBuilder();
-            commandText.AppendLine(string.Format("USE master; IF DB_ID(N'{0}') IS NOT NULL DROP DATABASE {0}; CREATE DATABASE {0};  ", ds.DataSetName));
+            commandText.AppendLine(string.Format("USE master; IF DB_ID(N'{0}') IS NOT NULL DROP DATABASE [{0}]; CREATE DATABASE [{0}];  ", ds.DataSetName));
             createCommand.CommandText = commandText.ToString();
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
@@ -57,7 +58,7 @@ namespace DataBaseSchema
         {
             SqlCommand createCommand = new SqlCommand();
             StringBuilder commandText = new StringBuilder();
-            commandText.AppendLine(string.Format("USE {0}", ds.DataSetName));
+            commandText.AppendLine(string.Format("USE [{0}]", ds.DataSetName));
             foreach (DataTable t in ds.Tables)
             {
                 commandText.AppendLine(string.Format("IF EXISTS (SELECT * FROM SYSOBJECTS WHERE NAME='{0}' AND xtype='U') drop table [{0}]", t.TableName));

@@ -52,7 +52,7 @@ namespace DataBaseSchema
             using (SqlConnection conn = new SqlConnection(connString))
             {
                 SqlDataAdapter adapter = new SqlDataAdapter();
-                adapter.SelectCommand = new SqlCommand(string.Format("select * from {0}", tableName), conn);
+                adapter.SelectCommand = new SqlCommand(string.Format("select * from [{0}]", tableName), conn);
                 conn.Open();
                 adapter.FillSchema(ds, SchemaType.Source, tableName);
             }

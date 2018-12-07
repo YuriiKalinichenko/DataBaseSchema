@@ -15,11 +15,11 @@ namespace Tests
     {
         static void Main(string[] args)
         {
-            DataSet ds = new DataSet("DefaultDataSetName");
-            string connString = "DefaultConnectionString";
+            DataSet ds = new DataSet("Adventure Works DW2012 Test");
+            string connString = "Data Source=.; Initial Catalog=Adventure Works DW2012; Integrated Security=true";
             DataSetActions.CreateDataSet(ds, connString);
-            //PrintDataSetSchema(ds, "D:\\MainGetonSchema.txt");
-           //DataBaseActions.CreateDataBase(ds, connString, DataBaseActions.SetTransformToSqlTypes());
+            PrintDataSetSchema(ds, "D:\\Adventure Works DW2012.txt");
+           DataBaseActions.CreateDataBase(ds, connString, DataBaseActions.SetTransformToSqlTypes());
         }
         static void PrintDataSetSchema(DataSet ds, string fileName)
         {
