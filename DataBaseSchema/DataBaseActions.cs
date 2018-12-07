@@ -91,14 +91,17 @@ namespace DataBaseSchema
             }
         }
 
-        public static void WriteData(DataSet ds, string connectionString, params SqlDataAdapter[] adapters)
+        public static void WriteData(DataSet ds, string connectionString, params Dictionary<string, SqlDataAdapter>[] adapters)
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 conn.Open();
-                foreach (SqlDataAdapter adapter in adapters)
+                foreach (Dictionary<string, SqlDataAdapter> dict in adapters)
                 {
-                    adapter.Update(ds);
+                    foreach(var item in dict)
+                    {
+                        item.Value.Update(ds.Tables[item.Key]);
+                    }
                 }
             }
         }
